@@ -27,7 +27,7 @@
 			</el-table-column>
 			<el-table-column prop="age" label="年龄" width="100" sortable>
 			</el-table-column>
-			<el-table-column prop="birth" label="生日" width="120" sortable>
+			<el-table-column prop="birth" label="注册时间" width="120" sortable>
 			</el-table-column>
 			<el-table-column prop="addr" label="地址" min-width="180" sortable>
 			</el-table-column>
