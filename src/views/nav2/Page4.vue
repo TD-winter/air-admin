@@ -1,33 +1,65 @@
 <template>
-  <div>
-    <h1>vuex 测试</h1>
-    Clicked: {{ getCount }} times
-    <button @click="increment">+</button>
-    <button @click="decrement">-</button>
-  </div>
+  <section>
+
+
+    <!--列表-->
+    <el-table :data="devData" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
+      <el-table-column type="selection" width="55">
+      </el-table-column>
+      <el-table-column type="index" width="60">
+      </el-table-column>
+      <el-table-column prop="name" label="姓名" width="120" sortable>
+      </el-table-column>
+      <el-table-column prop="sex" label="性别" width="100"  sortable>
+      </el-table-column>
+      <el-table-column prop="age" label="年龄" width="100" sortable>
+      </el-table-column>
+      <el-table-column prop="birth" label="注册时间" width="120" sortable>
+      </el-table-column>
+      <el-table-column prop="addr" label="地址" min-width="180" sortable>
+      </el-table-column>
+      <el-table-column label="操作" width="150">
+        <template scope="scope">
+          <el-button size="small" @click="">编辑</el-button>
+          <el-button type="danger" size="small" @click="">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </section>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import { mapActions } from 'vuex'
+  import util from '../../common/js/util'
+  //import NProgress from 'nprogress'
+  import { getDevList } from '../../api/api';
 
   export default {
-    computed: {
-  	// 使用对象展开运算符将 getters 混入 computed 对象中
-    ...mapGetters([
-      'getCount'
-      // ...
-    ])
+    data() {
+      return {
+        devData:[]
+
+      }
     },
     methods: {
-    ...mapActions([
-      'increment', // 映射 this.increment() 为 this.$store.dispatch('increment')
-      'decrement'
-    ])
-      //...mapActions({
-      //  add: 'increment' // 映射 this.add() 为 this.$store.dispatch('increment')
-      //})
+      getDev(page) {
+        getDevList({page: page}).then((res) => {
+          console.log(res);
+        })
+      },
+      listLoading(){
+
+      },
+      selsChange(){
+
+      }
+    },
+    mounted() {
+      this.getDev(0);
     }
   }
 
 </script>
+
+<style scoped>
+
+</style>

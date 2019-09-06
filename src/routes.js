@@ -42,8 +42,8 @@ let routes = [
         name: '设备中心',
         iconCls: 'fa fa-id-card-o',
         children: [
-            { path: '/page4', component: Page4, name: '页面4' },
-            { path: '/page5', component: Page5, name: '页面5' }
+            { path: '/page4', component: Page4, name: '设备列表' },
+            { path: '/page5', component: Page5, name: '导入设备' }
         ]
     },
     {

@@ -61,6 +61,7 @@ export default {
 
     //获取用户列表（分页）
     mock.onGet('/user/listpage').reply(config => {
+      console.log(2222);
       let {page, name} = config.params;
       let mockUsers = _Users.filter(user => {
         if (name && user.name.indexOf(name) == -1) return false;
@@ -150,5 +151,6 @@ export default {
       });
     });
 
+    mock.onAny().passThrough();
   }
 };
