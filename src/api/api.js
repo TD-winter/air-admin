@@ -17,5 +17,15 @@ export const editUser = params => { return axios.get(`${base}/user/edit`, { para
 
 export const addUser = params => { return axios.get(`${base}/user/add`, { params: params }); };
 
-
 export const getDevList = params => {return axios.get(`${iotApi}/wxApi/getDevList`, { params: params }); };
+
+export const saveDevCsv = params => {
+	return axios({
+		method: 'post',
+		url: `${iotApi}/admin/upload/saveDevCsv`,
+		data: params,
+		headers: {'Content-Type': 'multipart/form-data'} 
+	});
+};
+
+export const singleAuthorizeDevice = params => { return axios.get(`${iotApi}/wx/singleAuthorizeDevice`, { params: params }); };
