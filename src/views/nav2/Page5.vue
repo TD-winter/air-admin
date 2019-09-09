@@ -27,6 +27,9 @@
 				params.append('csv',this.file);
 				saveDevCsv(params).then((res) => {
 					console.log(res);
+					if(res.data.code === 0){
+						this.$message(res.data.message);
+					}
 				})
 			}
 		}

@@ -18,10 +18,10 @@
       </el-table-column>
       <el-table-column prop="qrticket" label="设备二维码" min-width="180" sortable>
       </el-table-column>
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" width="160">
         <template scope="scope">
           <el-button size="small" @click="dialogShow(scope.$index, scope.row)">授权</el-button>
-          <!-- <el-button type="danger" size="small" @click="">删除</el-button> -->
+          <el-button type="danger" size="small" @click="deleteData(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -52,7 +52,7 @@
 <script>
   // import util from '../../common/js/util'
   //import NProgress from 'nprogress'
-  import { getDevList, singleAuthorizeDevice } from '../../api/api';
+  import { getDevList, singleAuthorizeDevice, deleteDev } from '../../api/api';
 
   export default {
     data() {
@@ -114,6 +114,15 @@
       batchRemove() {
 
       },
+      deleteData(index, row) {
+        deleteDev({_id: row._id}).then((res) => {
+          if(res.data.code  === 0){
+            this.$message('删除成功!');
+          } else {
+            this.$message('已经删除!');
+          }
+        })
+      }
     },
     mounted() {
       this.getDev(0);

@@ -29,3 +29,5 @@ export const saveDevCsv = params => {
 };
 
 export const singleAuthorizeDevice = params => { return axios.get(`${iotApi}/wx/singleAuthorizeDevice`, { params: params }); };
+
+export const deleteDev = params => { return axios.get(`${iotApi}/wxApi/deleteDev`, { params: params }); }
