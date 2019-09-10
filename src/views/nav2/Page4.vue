@@ -6,17 +6,17 @@
       </el-table-column>
       <el-table-column type="index" width="60">
       </el-table-column>
-      <el-table-column prop="devName" label="设备名称" width="100" sortable>
+      <el-table-column prop="devName" label="设备名称" width="100">
       </el-table-column>
-      <el-table-column prop="key" label="key" width="120"  sortable>
+      <el-table-column prop="key" label="key" width="120">
       </el-table-column>
-      <el-table-column prop="secret" label="secret" width="160" sortable>
+      <el-table-column prop="secret" label="secret" width="160">
       </el-table-column>
-      <el-table-column prop="devID" label="设备ID" width="180" sortable>
+      <el-table-column prop="devID" label="设备ID" width="180">
       </el-table-column>
-      <el-table-column prop="mac" label="mac地址" min-width="100" sortable>
+      <el-table-column prop="mac" label="mac地址" min-width="100">
       </el-table-column>
-      <el-table-column prop="qrticket" label="设备二维码" min-width="180" sortable>
+      <el-table-column prop="qrticket" label="设备二维码" min-width="180">
       </el-table-column>
       <el-table-column label="操作" width="160">
         <template scope="scope">
