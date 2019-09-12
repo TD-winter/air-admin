@@ -1,7 +1,15 @@
 import axios from 'axios';
 
+let env = process.env.NODE_ENV;
+console.log(env);
+
 let base = '';
-let iotApi = 'api';
+let iotApi = '';
+if (env === "development"){
+	iotApi = 'api';
+} else {
+	iotApi = '';
+}
 
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
 
