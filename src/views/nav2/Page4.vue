@@ -1,7 +1,6 @@
 <template>
   <section>
     <!--列表-->
-    <div class="qrcode" ref="qrcodeContainer" @click='showQRCode'></div>
     <el-table :data="devData" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
       <el-table-column type="selection" width="55">
       </el-table-column>
@@ -16,10 +15,12 @@
       <el-table-column prop="devID" label="设备ID" width="180">
       </el-table-column>
       <el-table-column prop="qrticket" label="设备二维码" min-width="180">
+
       </el-table-column>
       <el-table-column label="操作" width="160">
         <template scope="scope">
           <el-button size="small" @click="dialogShow(scope.$index, scope.row)">授权</el-button>
+          <el-button size="small" @click="showQRCode(scope.$index, scope.row)">二维码</el-button>
           <el-button type="danger" size="small" @click="deleteData(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -45,6 +46,12 @@
           <el-button type="primary" @click="authorizeDevSubmit">确 定</el-button>
         </span>
     </el-dialog>
+
+    <div style="position:absolute;top:30%;left:50%;z-index:100;" v-show="codeDialog" @click="codeDialog = false">
+      <div class="qrcode" ref="qrcodeContainer"></div>
+    </div>
+    
+
   </section>
 </template>
 
@@ -59,6 +66,7 @@
         devData:[],
         listLoading: true,
         dialogVisible: false,
+        codeDialog: false,
         productID: '',
         mac: '',
         sels: 0,
@@ -133,21 +141,24 @@
           }
         })
       },
-      showQRCode () {
-        this.qrcode.clear();
-        this.qrcode.makeCode('http://www.why-dong.com');
+      showQRCode (index, row) {
+        if(row.qrticket){
+          this.codeDialog = true;
+          this.qrcode.clear();
+          this.qrcode.makeCode(row.qrticket);
+        }
       }
     },
     mounted() {
       this.getDev(0);
-      // this.qrcode = new QRCode(this.$refs.qrcodeContainer, {  
-      //       text: 'http://we.qq.com/d/AQAzI8Hnw-KzVYP1AgKMWzBT4r_9fB3ZNuCclZ3U',  
-      //       width: 100,  
-      //       height: 100,  
-      //       colorDark: '#000000',  
-      //       colorLight: '#ffffff',  
-      //       correctLevel: QRCode.CorrectLevel.H  
-      // });
+      this.qrcode = new QRCode(this.$refs.qrcodeContainer, {  
+            text: 'http://we.qq.com/d/AQAzI8Hnw-KzVYP1AgKMWzBT4r_9fB3ZNuCclZ3U',  
+            width: 150,  
+            height: 150,
+            colorDark: '#000000',  
+            colorLight: '#ffffff',  
+            correctLevel: QRCode.CorrectLevel.H  
+      });
     }
   }
 
