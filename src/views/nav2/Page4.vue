@@ -1,20 +1,19 @@
 <template>
   <section>
     <!--列表-->
+    <div class="qrcode" ref="qrcodeContainer" @click='showQRCode'></div>
     <el-table :data="devData" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
       <el-table-column type="selection" width="55">
       </el-table-column>
       <el-table-column type="index" width="60">
       </el-table-column>
-      <el-table-column prop="devName" label="设备名称" width="100">
+      <el-table-column prop="devName" label="设备名称(mac)" width="140">
       </el-table-column>
       <el-table-column prop="key" label="key" width="120">
       </el-table-column>
       <el-table-column prop="secret" label="secret" width="160">
       </el-table-column>
       <el-table-column prop="devID" label="设备ID" width="180">
-      </el-table-column>
-      <el-table-column prop="mac" label="mac地址" min-width="100">
       </el-table-column>
       <el-table-column prop="qrticket" label="设备二维码" min-width="180">
       </el-table-column>
@@ -53,7 +52,7 @@
   // import util from '../../common/js/util'
   //import NProgress from 'nprogress'
   import { getDevList, singleAuthorizeDevice, deleteDev } from '../../api/api';
-
+  import QRCode from 'qrcodejs2';
   export default {
     data() {
       return {
@@ -63,7 +62,8 @@
         productID: '',
         mac: '',
         sels: 0,
-        total: 1000
+        total: 1000,
+        qrcode: null
       }
     },
     methods: {
@@ -114,6 +114,16 @@
       batchRemove() {
 
       },
+      compelUnbind (index, row) {
+        let params = {
+          openid: row.publicWxOpenId,
+          deviceid: row.devID,
+          devName: row.devName
+        };
+        compelUnbind(params).then(res => {
+
+        })
+      },
       deleteData(index, row) {
         deleteDev({_id: row._id}).then((res) => {
           if(res.data.code  === 0){
@@ -122,10 +132,22 @@
             this.$message('已经删除!');
           }
         })
+      },
+      showQRCode () {
+        this.qrcode.clear();
+        this.qrcode.makeCode('http://www.why-dong.com');
       }
     },
     mounted() {
       this.getDev(0);
+      // this.qrcode = new QRCode(this.$refs.qrcodeContainer, {  
+      //       text: 'http://we.qq.com/d/AQAzI8Hnw-KzVYP1AgKMWzBT4r_9fB3ZNuCclZ3U',  
+      //       width: 100,  
+      //       height: 100,  
+      //       colorDark: '#000000',  
+      //       colorLight: '#ffffff',  
+      //       correctLevel: QRCode.CorrectLevel.H  
+      // });
     }
   }
 

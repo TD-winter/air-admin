@@ -13,8 +13,6 @@ if (env === "development"){
 
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
 
-export const getUserList = params => { return axios.get(`${base}/user/list`, { params: params }); };
-
 export const getUserListPage = params => { return axios.get(`${base}/user/listpage`, { params: params }); };
 
 export const removeUser = params => { return axios.get(`${base}/user/remove`, { params: params }); };
@@ -39,3 +37,7 @@ export const saveDevCsv = params => {
 export const singleAuthorizeDevice = params => { return axios.get(`${iotApi}/wx/singleAuthorizeDevice`, { params: params }); };
 
 export const deleteDev = params => { return axios.get(`${iotApi}/wxApi/deleteDev`, { params: params }); }
+
+export const compelUnbind = params => {return axios.get(`${iotApi}/wx/compelUnbind`, {params: params}); }
+
+export const getUserList = params => { return axios.get(`${iotApi}/wx/getUserList`, { params: params }); };
