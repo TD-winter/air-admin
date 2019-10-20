@@ -6,12 +6,11 @@ console.log(env);
 let base = '';
 let iotApi = '';
 if (env === "development"){
-	iotApi = 'api';
+	iotApi = '/api';
 } else {
 	iotApi = '';
 }
 
-export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
 
 export const getUserListPage = params => { return axios.get(`${base}/user/listpage`, { params: params }); };
 
@@ -22,6 +21,10 @@ export const batchRemoveUser = params => { return axios.get(`${base}/user/batchr
 export const editUser = params => { return axios.get(`${base}/user/edit`, { params: params }); };
 
 export const addUser = params => { return axios.get(`${base}/user/add`, { params: params }); };
+
+export const requestLogin = params => { return axios.post(`${iotApi}/users/login`, params).then(res => res.data); };
+
+export const requestloginout = params => {return axios.get(`${iotApi}/users/loginout`, { params: params }); };
 
 export const getDevList = params => {return axios.get(`${iotApi}/wxApi/getDevList`, { params: params }); };
 
