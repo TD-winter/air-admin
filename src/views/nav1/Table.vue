@@ -92,8 +92,8 @@
 		        });
           	}
 	          this.userData = res.data.resData;
+            this.total = res.data.total;
 	          this.listLoading = false;
-
           } else {
           	this.$message({
 	          message: '出了点小问题！',
@@ -125,12 +125,23 @@
           deviceid: devID,
           devName: devName
         };
-        compelUnbind(params).then(res => {
-        	if (res.data.code === 200) {
-        		this.$message('解绑成功!');
-        		window.location.reload();
-        	}
-        })
+        this.$confirm('此操作将永久解绑该设备, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          compelUnbind(params).then(res => {
+            if (res.data.code === 200) {
+              this.$message('解绑成功!');
+              window.location.reload();
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消解绑操作'
+          });          
+        });
       }
     },
     mounted() {

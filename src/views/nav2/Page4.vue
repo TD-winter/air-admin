@@ -1,10 +1,13 @@
 <template>
   <section>
     <!--列表-->
-    <el-table :data="devData" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
+    <el-table :data="devData" highlight-current-row height="500" v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
       <el-table-column type="selection" width="55">
       </el-table-column>
-      <el-table-column type="index" width="60">
+      <el-table-column width="60">
+        <template scope="scope">
+          {{scope.$index + 1 + currentPage * 20}}
+        </template>
       </el-table-column>
       <el-table-column prop="devName" label="设备名称(mac)" width="140">
       </el-table-column>
@@ -15,7 +18,6 @@
       <el-table-column prop="devID" label="设备ID" width="180">
       </el-table-column>
       <el-table-column prop="qrticket" label="设备二维码" min-width="180">
-
       </el-table-column>
       <el-table-column label="操作" width="160">
         <template scope="scope">
@@ -71,6 +73,7 @@
         mac: '',
         sels: 0,
         total: 1000,
+        currentPage: 0,
         qrcode: null
       }
     },
@@ -84,7 +87,8 @@
               type: 'warning'
             });
           }
-          this.devData = res.data;
+          this.devData = res.data.data;
+          this.total = res.data.total;
           this.listLoading = false;
         });
       },
@@ -117,6 +121,7 @@
         this.dialogVisible = true;
       },
       handleCurrentChange(page) {
+        this.currentPage = page;
         this.getDev(page-1);
       },
       batchRemove() {
@@ -133,13 +138,24 @@
         })
       },
       deleteData(index, row) {
-        deleteDev({_id: row._id}).then((res) => {
-          if(res.data.code  === 0){
-            this.$message('删除成功!');
-          } else {
-            this.$message('已经删除!');
-          }
-        })
+        this.$confirm('此操作将永久删除该设备, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteDev({_id: row._id}).then((res) => {
+            if(res.data.code  === 0){
+              this.$message('删除成功!');
+            } else {
+              this.$message('已经删除!');
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
       },
       showQRCode (index, row) {
         if(row.qrticket){
