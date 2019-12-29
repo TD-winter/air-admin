@@ -6,7 +6,7 @@
       </el-table-column>
       <el-table-column width="60">
         <template scope="scope">
-          {{scope.$index + 1 + currentPage * 20}}
+          {{scope.$index + 1 + (currentPage - 1) * 20}}
         </template>
       </el-table-column>
       <el-table-column prop="devName" label="设备名称(mac)" width="140">
@@ -73,7 +73,7 @@
         mac: '',
         sels: 0,
         total: 1000,
-        currentPage: 0,
+        currentPage: 1,
         qrcode: null
       }
     },
