@@ -43,4 +43,10 @@ export const deleteDev = params => { return axios.get(`${iotApi}/wxApi/deleteDev
 
 export const compelUnbind = params => {return axios.get(`${iotApi}/wx/compelUnbind`, {params: params}); }
 
+export const compelBind = params => {return axios.get(`${iotApi}/wx/compelBind`, {params: params}); }
+
+export const openidGetdeviceid = params => {return axios.get(`${iotApi}/wx/openidGetdeviceid`, {params: params}); }
+
+export const deviceIdGetOpenId = params => {return axios.get(`${iotApi}/wx/deviceIdGetOpenId`, {params: params}); }
+
 export const getUserList = params => { return axios.get(`${iotApi}/wx/getUserList`, { params: params }); };

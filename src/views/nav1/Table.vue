@@ -4,6 +4,10 @@
     <el-table :data="userData" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;" type="expand">
 	   <el-table-column type="expand">
 	      <template slot-scope="props">
+          <el-form>
+            <el-input v-model="inputDevID" placeholder="请输入内容"></el-input>
+            <el-button size="small" @click="compelBind(props.row.publicWxOpenId)">绑定设备</el-button>
+          </el-form>
 	        <el-form label-position="left" inline class="demo-table-expand" v-for="item in props.row.dev">
 	          <el-form-item label="设备名称(mac)：">
 	            <span>{{ item.devName }}</span>
@@ -28,11 +32,11 @@
       </el-table-column>
       <el-table-column prop="wxUnionid" label="wxUnionid" min-width="180">
       </el-table-column>
-<!--       <el-table-column label="操作" width="160">
+      <el-table-column label="操作" width="160">
         <template scope="scope">
-          <el-button size="small" @click="dialogShow(scope.$index, scope.row)">解绑设备</el-button>
+          <el-button size="small" @click="openidGetdeviceid(scope.row.publicWxOpenId)">匹配绑定设备</el-button>
         </template>
-      </el-table-column> -->
+      </el-table-column>
     </el-table>
     <!--工具条-->
     <el-col :span="24" class="toolbar">
@@ -65,7 +69,7 @@
 <script>
   // import util from '../../common/js/util'
   //import NProgress from 'nprogress'
-  import { getUserList, compelUnbind } from '../../api/api';
+  import { getUserList, compelUnbind, compelBind, openidGetdeviceid } from '../../api/api';
 
   export default {
     data() {
@@ -75,6 +79,7 @@
         dialogVisible: false,
         devName: '',
         devID: '',
+        inputDevID: '',
         publicWxOpenId: '',
         sels: 0,
         total: 1000
@@ -140,6 +145,51 @@
           this.$message({
             type: 'info',
             message: '已取消解绑操作'
+          });          
+        });
+      },
+      compelBind (publicWxOpenId){
+        let params = {
+          openid: publicWxOpenId,
+          deviceid: this.inputDevID
+        };
+        this.$confirm('此操作将绑定该设备, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          compelBind(params).then(res => {
+            if (res.data.code === 200) {
+              this.$message('解绑成功!');
+              window.location.reload();
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消解绑操作'
+          });          
+        });
+      },
+      openidGetdeviceid(publicWxOpenId) {
+        console.log(publicWxOpenId)
+        let params = {
+          openid: publicWxOpenId
+        };
+        this.$confirm('将匹配用户的设备, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          openidGetdeviceid(params).then(res => {
+            if (res.data.code === 200) {
+              this.$message('获取成功!');
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
           });          
         });
       }

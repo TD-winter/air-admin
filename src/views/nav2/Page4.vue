@@ -23,6 +23,7 @@
         <template scope="scope">
           <el-button size="small" @click="dialogShow(scope.$index, scope.row)">授权</el-button>
           <el-button size="small" @click="showQRCode(scope.$index, scope.row)">二维码</el-button>
+          <el-button size="small" @click="matchingOpenId(scope.row.devID)">匹配用户</el-button>
           <el-button type="danger" size="small" @click="deleteData(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -60,7 +61,7 @@
 <script>
   // import util from '../../common/js/util'
   //import NProgress from 'nprogress'
-  import { getDevList, singleAuthorizeDevice, deleteDev } from '../../api/api';
+  import { getDevList, singleAuthorizeDevice, deleteDev, deviceIdGetOpenId } from '../../api/api';
   import QRCode from 'qrcodejs2';
   export default {
     data() {
@@ -163,6 +164,26 @@
           this.qrcode.clear();
           this.qrcode.makeCode(row.qrticket);
         }
+      },
+      matchingOpenId(devID) {
+        this.$confirm('是否匹配用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deviceIdGetOpenId({deviceid: devID}).then((res) => {
+            if(res.data.code  === 200){
+              this.$message('匹配成功!');
+            } else {
+              this.$message('匹配失败!');
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          });          
+        });
       }
     },
     mounted() {
